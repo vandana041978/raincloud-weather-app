@@ -12,6 +12,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { CloudSun, Loader2, RefreshCw, TriangleAlert } from "lucide-react";
 
 import { NearbyPlaces } from "@/components/NearbyPlaces";
+import { TripPlanner } from "@/components/TripPlanner";
 
 import { fetchWeather } from "@/lib/weather.functions";
 import type { WeatherBundle } from "@/lib/weather-types";
@@ -258,6 +259,8 @@ function WeatherPage() {
             </ClientOnly>
 
             <AdvicePanel data={data} />
+
+            <TripPlanner data={data} />
 
             <NearbyPlaces data={data} />
 
