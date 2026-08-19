@@ -1,5 +1,5 @@
 /**
- * Skyglass — glassmorphic weather dashboard.
+ * SkyGlass — glassmorphic weather dashboard.
  *
  * Data flows one way: a query keyed by city/coords calls the `fetchWeather`
  * server function (which hides the OpenWeatherMap key), and every panel reads
@@ -42,13 +42,13 @@ const WeatherMap = lazy(() => import("@/components/weather/WeatherMap"));
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Skyglass — Live Weather Forecast, Hourly & 7-Day Outlook" },
+      { title: "SkyGlass — Live Weather Forecast, Hourly & 7-Day Outlook" },
       {
         name: "description",
         content:
           "Search any city for live conditions, hourly and 7-day forecasts, air quality, UV, trends and an interactive map in one glassmorphic dashboard.",
       },
-      { property: "og:title", content: "Skyglass — Live Weather Forecast, Hourly & 7-Day Outlook" },
+      { property: "og:title", content: "SkyGlass — Live Weather Forecast, Hourly & 7-Day Outlook" },
       {
         property: "og:description",
         content:

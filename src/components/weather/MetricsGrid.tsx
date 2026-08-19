@@ -95,7 +95,7 @@ export function MetricsGrid({ data, unit }: { data: WeatherBundle; unit: Unit })
         value={`${current.humidity}%`}
         caption={current.humidity > 70 ? "Muggy air" : current.humidity < 30 ? "Very dry" : "Comfortable"}
         percent={current.humidity}
-        tone="from-sky-400 to-cyan-300"
+        tone="from-Sky-400 to-cyan-300"
       />
       <Meter
         icon={<Wind className="h-4 w-4" />}

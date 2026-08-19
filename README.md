@@ -1,4 +1,4 @@
-# Skyglass — Weather Forecast Dashboard
+# SkyGlass — Weather Forecast Dashboard
 
 A glassmorphic weather app: live conditions, hourly and multi-day forecasts,
 air quality, trend charts and an interactive map for any city on earth.

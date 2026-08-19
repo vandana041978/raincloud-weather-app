@@ -384,7 +384,7 @@ export function TripPlanner({
             }}
             className={`rounded-xl border p-4 text-left transition ${
               travelStyle === "relaxed"
-                ? "border-sky-400/50 bg-sky-400/20"
+                ? "border-Sky-400/50 bg-Sky-400/20"
                 : "border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
             }`}
           >
@@ -409,7 +409,7 @@ export function TripPlanner({
             }}
             className={`rounded-xl border p-4 text-left transition ${
               travelStyle === "balanced"
-                ? "border-sky-400/50 bg-sky-400/20"
+                ? "border-Sky-400/50 bg-Sky-400/20"
                 : "border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
             }`}
           >
@@ -434,7 +434,7 @@ export function TripPlanner({
             }}
             className={`rounded-xl border p-4 text-left transition ${
               travelStyle === "adventure"
-                ? "border-sky-400/50 bg-sky-400/20"
+                ? "border-Sky-400/50 bg-Sky-400/20"
                 : "border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
             }`}
           >
@@ -499,7 +499,7 @@ export function TripPlanner({
                   }
                   className={`rounded-xl border p-3 text-left text-sm transition ${
                     selected
-                      ? "border-sky-400/50 bg-sky-400/20"
+                      ? "border-Sky-400/50 bg-Sky-400/20"
                       : "border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
                   }`}
                 >

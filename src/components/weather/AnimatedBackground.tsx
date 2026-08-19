@@ -7,10 +7,10 @@ import { useMemo } from "react";
 import type { Scene } from "@/lib/weather-utils";
 
 const GRADIENTS: Record<Scene, string> = {
-  sunny: "from-sky-300 via-cyan-200 to-amber-100 dark:from-sky-900 dark:via-slate-800 dark:to-indigo-950",
+  sunny: "from-Sky-300 via-cyan-200 to-amber-100 dark:from-Sky-900 dark:via-slate-800 dark:to-indigo-950",
   cloudy: "from-slate-300 via-slate-200 to-slate-100 dark:from-slate-800 dark:via-slate-900 dark:to-slate-950",
-  rain: "from-slate-400 via-sky-300 to-slate-200 dark:from-slate-900 dark:via-sky-950 dark:to-slate-950",
-  snow: "from-slate-200 via-sky-100 to-white dark:from-slate-800 dark:via-slate-900 dark:to-indigo-950",
+  rain: "from-slate-400 via-Sky-300 to-slate-200 dark:from-slate-900 dark:via-Sky-950 dark:to-slate-950",
+  snow: "from-slate-200 via-Sky-100 to-white dark:from-slate-800 dark:via-slate-900 dark:to-indigo-950",
   thunder: "from-slate-500 via-indigo-300 to-slate-300 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-900",
   night: "from-indigo-900 via-slate-900 to-black",
   mist: "from-slate-300 via-slate-200 to-stone-200 dark:from-slate-800 dark:via-slate-900 dark:to-slate-950",
