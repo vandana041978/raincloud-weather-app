@@ -5,7 +5,7 @@
 import { AlertTriangle, Lightbulb, Plane, Shirt } from "lucide-react";
 import type { WeatherBundle } from "@/lib/weather-types";
 import { clothingAdvice, travelAdvice, weatherFact } from "@/lib/weather-utils";
-import { TripPlanner } from "@/components/TripPlanner";
+
 
 function Tip({
   icon,
@@ -32,10 +32,8 @@ function Tip({
 
 export function AdvicePanel({
   data,
-  showTripPlanner,
 }: {
   data: WeatherBundle;
-  showTripPlanner: boolean;
 }) {
   return (
     <section
@@ -81,14 +79,7 @@ export function AdvicePanel({
         body={weatherFact(data.current.dt / 3600)}
       />
 
-      {showTripPlanner && (
-  <div
-    id="smart-trip-planner"
-    className="sm:col-span-2 lg:col-span-3 scroll-mt-24"
-  >
-    <TripPlanner data={data} />
-  </div>
-)}
+      
     </section>
   );
 }

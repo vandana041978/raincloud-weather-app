@@ -1,6 +1,6 @@
 /**
- * Search header: debounced city autocomplete, geolocation, unit and theme
- * toggles, plus recent-search and favourite chips.
+ * Search header: debounced city autocomplete, geolocation,
+ * recent-search and favourite chips.
  */
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -8,27 +8,20 @@ import {
   Loader2,
   LocateFixed,
   MapPin,
-  Moon,
   Search,
-  Star,
-  Sun,
   X,
 } from "lucide-react";
 
 import { searchCities } from "@/lib/weather.functions";
 import type { CitySuggestion } from "@/lib/weather-types";
 import type { SavedCity } from "@/lib/weather-storage";
-import type { Unit } from "@/lib/weather-utils";
 
 interface Props {
   onSelectCity: (city: string) => void;
   onSelectCoords: (lat: number, lon: number) => void;
   onUseLocation: () => void;
   locating: boolean;
-  unit: Unit;
-  onToggleUnit: () => void;
-  theme: "light" | "dark";
-  onToggleTheme: () => void;
+
   recents: SavedCity[];
   favorites: SavedCity[];
   onClearRecents: () => void;
@@ -39,10 +32,6 @@ export function SearchBar({
   onSelectCoords,
   onUseLocation,
   locating,
-  unit,
-  onToggleUnit,
-  theme,
-  onToggleTheme,
   recents,
   favorites,
   onClearRecents,
@@ -70,7 +59,9 @@ export function SearchBar({
 
     const id = window.setTimeout(async () => {
       try {
-        const rows = await lookup({ data: { query: q } });
+        const rows = await lookup({
+          data: { query: q },
+        });
 
         if (!cancelled) {
           setOptions(rows);
@@ -144,7 +135,6 @@ export function SearchBar({
       if (options.length === 0) return;
 
       e.preventDefault();
-
       setOpen(true);
 
       setActive((index) =>
@@ -156,7 +146,6 @@ export function SearchBar({
       if (options.length === 0) return;
 
       e.preventDefault();
-
       setOpen(true);
 
       setActive((index) =>
@@ -227,7 +216,7 @@ export function SearchBar({
             </button>
           )}
 
-          {/* My Location - at the END of search bar */}
+          {/* My Location */}
           <button
             type="button"
             onClick={onUseLocation}
@@ -292,56 +281,6 @@ export function SearchBar({
           </ul>
         )}
       </form>
-
-      {/* =====================================================
-          TEMPERATURE + THEME
-          Below search bar, aligned to the right
-          ===================================================== */}
-      <div className="flex items-center justify-end gap-2">
-
-        {/* Temperature */}
-        <button
-          type="button"
-          onClick={onToggleUnit}
-          aria-label={`Switch to ${
-            unit === "C" ? "Fahrenheit" : "Celsius"
-          }`}
-          title={`Switch to ${
-            unit === "C" ? "Fahrenheit" : "Celsius"
-          }`}
-          className="glass glass-hover px-3.5 py-2.5 text-sm font-semibold scene-text"
-        >
-          °{unit}
-        </button>
-
-        {/* Theme */}
-        <button
-          type="button"
-          onClick={onToggleTheme}
-          aria-label={`Switch to ${
-            theme === "dark" ? "light" : "dark"
-          } mode`}
-          title={`Switch to ${
-            theme === "dark" ? "light" : "dark"
-          } mode`}
-          className="glass glass-hover p-2.5 scene-text"
-        >
-          {theme === "dark" ? (
-            <Sun
-              className="h-5 w-5"
-              aria-hidden="true"
-            />
-          ) : (
-            <Moon
-              className="h-5 w-5"
-              aria-hidden="true"
-            />
-          )}
-        </button>
-      </div>
-
-     
-      
     </div>
   );
 }
