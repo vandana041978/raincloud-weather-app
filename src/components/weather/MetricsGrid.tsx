@@ -85,8 +85,11 @@ function Stat({
 
 export function MetricsGrid({ data, unit }: { data: WeatherBundle; unit: Unit }) {
   const { current, air } = data;
-  const uvKnown = data.source === "onecall";
 
+console.log("Weather source:", data.source);
+console.log("UV value:", current.uvi);
+
+  const uvKnown = typeof current.uvi === "number" && current.uvi >= 0;
   return (
     <section aria-label="Weather details" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <Meter

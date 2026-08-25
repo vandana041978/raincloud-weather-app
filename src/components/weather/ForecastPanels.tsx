@@ -4,23 +4,100 @@
 import type { WeatherBundle } from "@/lib/weather-types";
 import { formatTemp, iconUrl, localDay, localHour, type Unit } from "@/lib/weather-utils";
 
-export function HourlyForecast({ data, unit }: { data: WeatherBundle; unit: Unit }) {
+export function HourlyForecast({
+  data,
+  unit,
+}: {
+  data: WeatherBundle;
+  unit: Unit;
+}) {
   const tz = data.location.timezoneOffset;
+
+  const now = Math.floor(Date.now() / 1000);
+
+  const pastHours = data.hourly
+    .filter((h) => h.dt < now)
+    .slice(-12);
+
+  const futureHours = data.hourly
+    .filter((h) => h.dt >= now)
+    .slice(0, 12);
+
   return (
     <section className="glass p-5" aria-labelledby="hourly-heading">
-      <h2 id="hourly-heading" className="text-sm font-semibold uppercase tracking-widest scene-muted">
-        Next hours
+      <h2
+        id="hourly-heading"
+        className="text-sm font-semibold uppercase tracking-widest scene-muted"
+      >
+        Past 12 hours & Next 12 hours
       </h2>
+
       <ul className="mt-4 flex gap-3 overflow-x-auto pb-2">
-        {data.hourly.map((h) => (
+        {pastHours.map((h) => (
           <li
             key={h.dt}
-            className="flex w-20 shrink-0 flex-col items-center gap-1 rounded-2xl bg-white/20 px-2 py-3 transition hover:bg-white/40 dark:bg-white/5 dark:hover:bg-white/10"
+            className="flex w-20 shrink-0 flex-col items-center gap-1 rounded-2xl bg-black/5 px-2 py-3 dark:bg-white/5"
           >
-            <span className="text-xs scene-muted">{localHour(h.dt, tz)}</span>
-            <img src={iconUrl(h.icon, 2)} alt={h.description} loading="lazy" width={48} height={48} className="h-12 w-12" />
-            <span className="text-sm font-semibold scene-text">{formatTemp(h.temp, unit)}</span>
-            <span className="text-[11px] text-sky-600 dark:text-sky-300">{Math.round(h.pop * 100)}%</span>
+            <span className="text-[10px] font-medium scene-muted">
+              Past
+            </span>
+
+            <span className="text-xs scene-muted">
+              {localHour(h.dt, tz)}
+            </span>
+
+            <img
+              src={iconUrl(h.icon, 2)}
+              alt={h.description}
+              loading="lazy"
+              width={48}
+              height={48}
+              className="h-12 w-12"
+            />
+
+            <span className="text-sm font-semibold scene-text">
+              {formatTemp(h.temp, unit)}
+            </span>
+
+            <span className="text-[11px] text-sky-600 dark:text-sky-300">
+              {Math.round(h.pop * 100)}%
+            </span>
+          </li>
+        ))}
+
+        {futureHours.map((h, index) => (
+          <li
+            key={h.dt}
+            className={`flex w-20 shrink-0 flex-col items-center gap-1 rounded-2xl px-2 py-3 transition hover:bg-white/40 dark:hover:bg-white/10 ${
+              index === 0
+                ? "bg-sky-400/20 ring-1 ring-sky-400/40"
+                : "bg-white/20 dark:bg-white/5"
+            }`}
+          >
+            <span className="text-[10px] font-medium text-sky-600 dark:text-sky-300">
+              {index === 0 ? "Now" : "Next"}
+            </span>
+
+            <span className="text-xs scene-muted">
+              {localHour(h.dt, tz)}
+            </span>
+
+            <img
+              src={iconUrl(h.icon, 2)}
+              alt={h.description}
+              loading="lazy"
+              width={48}
+              height={48}
+              className="h-12 w-12"
+            />
+
+            <span className="text-sm font-semibold scene-text">
+              {formatTemp(h.temp, unit)}
+            </span>
+
+            <span className="text-[11px] text-sky-600 dark:text-sky-300">
+              {Math.round(h.pop * 100)}%
+            </span>
           </li>
         ))}
       </ul>

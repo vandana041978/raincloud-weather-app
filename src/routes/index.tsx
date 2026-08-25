@@ -9,7 +9,7 @@ import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from "react
 import { ClientOnly, createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { CloudSun, Loader2, RefreshCw, TriangleAlert } from "lucide-react";
+import { CloudSun, Loader2, RefreshCw, TriangleAlert, Menu } from "lucide-react";
 
 import { NearbyPlaces } from "@/components/NearbyPlaces";
 import { TripPlanner } from "@/components/TripPlanner";
@@ -72,6 +72,9 @@ function WeatherPage() {
   const [geoError, setGeoError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<SavedCity[]>([]);
   const [recents, setRecents] = useState<SavedCity[]>([]);
+const [menuOpen, setMenuOpen] = useState(false);
+const [tripPlannerOpen, setTripPlannerOpen] = useState(false);
+const [showHistory, setShowHistory] = useState(false);
 
   // Restore saved preferences and lists after hydration.
   useEffect(() => {
@@ -171,9 +174,86 @@ function WeatherPage() {
       </ClientOnly>
 
       <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
-        <header className="mb-6 flex items-center gap-2">
-          <CloudSun className="h-7 w-7 shrink-0 text-sky-500 dark:text-sky-300" aria-hidden="true" />
-          <span className="text-lg font-semibold tracking-tight scene-text">Skyglass</span>
+        <header className="sticky top-0 z-50 mb-6 flex items-center gap-2 bg-background/30 px-2 py-3 backdrop-blur-md">
+  <CloudSun
+    className="h-7 w-7 shrink-0 text-sky-500 dark:text-sky-300"
+    aria-hidden="true"
+  />
+
+  <span className="text-lg font-semibold tracking-tight scene-text">
+    SkyGlass
+  </span>
+
+<div className="ml-auto flex flex-col items-end">
+  {/* Hamburger */}
+  <button
+    type="button"
+    aria-label="Open menu"
+    onClick={() => setMenuOpen((open) => !open)}
+    className="glass glass-hover rounded-xl p-2.5 scene-text"
+  >
+    <Menu className="h-5 w-5" aria-hidden="true" />
+  </button>
+
+  {/* Buttons below hamburger */}
+  {menuOpen && (
+    <div className="mt-2 flex flex-col items-end gap-2">
+      <button
+        type="button"
+        onClick={() => {
+          setRecents(getRecents().slice(0, 20));
+  setShowHistory(true);
+  setMenuOpen(false);
+}}
+        className="glass glass-hover rounded-lg px-3 py-1.5 text-xs font-medium scene-text"
+      >
+        History
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setTripPlannerOpen(true);
+          setMenuOpen(false);
+
+          setTimeout(() => {
+            document
+              .getElementById("smart-trip-planner")
+              ?.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+          }, 150);
+        }}
+        className="glass glass-hover rounded-lg px-3 py-1.5 text-xs font-medium scene-text"
+      >
+        Smart Trip Planner
+      </button>
+    </div>
+  )}
+</div>
+</header>
+
+{tripPlannerOpen && (
+  <section className="mt-6">
+    <div className="mb-3 flex items-center justify-between">
+      <h2 className="text-xl font-semibold scene-text">
+        Smart Trip Planner
+      </h2>
+
+      <button
+        type="button"
+        onClick={() => setTripPlannerOpen(false)}
+        className="glass glass-hover rounded-xl px-3 py-2 text-sm scene-text"
+      >
+        Close
+      </button>
+    </div>
+
+    
+  </section>
+)}
+
           {query.isFetching && (
             <Loader2 className="ml-auto h-4 w-4 animate-spin scene-muted" aria-label="Loading weather" />
           )}
@@ -187,7 +267,7 @@ function WeatherPage() {
               <RefreshCw className="h-4 w-4" aria-hidden="true" />
             </button>
           )}
-        </header>
+        
 
         <SearchBar
           onSelectCity={(city) => setTarget({ city })}
@@ -202,6 +282,48 @@ function WeatherPage() {
           favorites={favorites}
           onClearRecents={() => setRecents(clearRecents())}
         />
+        {showHistory && (
+  <section className="mt-4 glass p-4">
+    <div className="mb-3 flex items-center justify-between">
+      <h2 className="text-sm font-semibold scene-text">
+        Search History
+      </h2>
+
+      <button
+        type="button"
+        onClick={() => setShowHistory(false)}
+        className="text-xs scene-muted hover:underline"
+      >
+        Close
+      </button>
+    </div>
+
+    {recents.length > 0 ? (
+      <div className="flex flex-wrap gap-2">
+        {recents.slice(0, 20).map((city) => (
+          <button
+            key={`${city.lat}-${city.lon}`}
+            type="button"
+            onClick={() => {
+              setTarget({
+                lat: city.lat,
+                lon: city.lon,
+              });
+              setShowHistory(false);
+            }}
+            className="glass glass-hover rounded-lg px-3 py-1.5 text-xs scene-text"
+          >
+            {city.name}
+          </button>
+        ))}
+      </div>
+    ) : (
+      <p className="text-sm scene-muted">
+        No search history yet.
+      </p>
+    )}
+  </section>
+)}
 
         {(geoError || errorMessage) && (
           <div
@@ -258,9 +380,12 @@ function WeatherPage() {
               </Suspense>
             </ClientOnly>
 
-            <AdvicePanel data={data} />
+           <AdvicePanel
+  data={data}
+  showTripPlanner={tripPlannerOpen}
+/>
 
-            <TripPlanner data={data} />
+            
 
             <NearbyPlaces data={data} />
 
